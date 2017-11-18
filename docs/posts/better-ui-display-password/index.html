@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Signup for one service and one common thing you&rsquo;ll see is a masked password box. This provides security because bystanders can&rsquo;t read the password. It comes with a downside though: Your user will be annoyed if he makes a typo. This is especially annoying if the password needs to be typed two times to prevent typos and you have to type both passwords again.
+But there is a simple solution to this problem: Provide an &ldquo;unmask&rdquo; function.'>
+
+<meta property='og:title' content='Better UI: Display passwords • Simon Schraeder - Personal Blog'>
+<meta property='og:description' content='Signup for one service and one common thing you&rsquo;ll see is a masked password box. This provides security because bystanders can&rsquo;t read the password. It comes with a downside though: Your user will be annoyed if he makes a typo. This is especially annoying if the password needs to be typed two times to prevent typos and you have to type both passwords again.
+But there is a simple solution to this problem: Provide an &ldquo;unmask&rdquo; function.'>
+<meta property='og:url' content='https://simon-schraeder.de/posts/better-ui-display-password/'>
+<meta property='og:site_name' content='Simon Schraeder - Personal Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2013-09-12T19:50:20&#43;01:00'/><meta property='article:modified_time' content='2013-09-12T19:50:20&#43;01:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.30.2" />
+
+  <title>Better UI: Display passwords • Simon Schraeder - Personal Blog</title>
+  <link rel='canonical' href='https://simon-schraeder.de/posts/better-ui-display-password/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&subset=latin'>
+<link rel='stylesheet' href='/assets/css/main.77da63e1.css'><link rel='stylesheet' href='/css/custom.css'>
+</head>
+
+
+<body class='page type-posts'>
+  <div class='site'>
+
+    <a class='screen-reader' href='#main'>Skip to Content</a>
+
+    <header id='header' class='header-container'>
+      <div class='header site-header'>
+        <nav id='main-menu' class='main-menu-container' aria-label='Main Menu'>
+  <ul class='main-menu'>
+  <li>
+      <a href='/'>Simon&#39;s Blog</a>
+    </li>
+  <li>
+      <a href='/contact/'>Contact</a>
+    </li>
+  <li>
+      <a href='https://www.github.com/c0dr'>GitHub</a>
+    </li>
+  
+  </ul>
+</nav>
+
+        <div class='header-info'>
+          
+          <p class='site-title title'>Simon Schraeder - Personal Blog</p>
+          
+          <p class='site-description subtitle'></p>
+        </div>
+      </div>
+    </header>
+
+
+<main id='main' class='main'>
+  <article lang='en' class='entry'>
+    <header class='header-container'>
+  <div class='header entry-header'>
+    <div class='header-info'>
+      <h1 class='title'>Better UI: Display passwords</h1>
+      
+
+    </div>
+    
+<div class='meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader'>Posted on </span>
+  <time class='date' datetime='2013-09-12T19:50:20&#43;01:00'>2013, Sep 12</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+2 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+    
+    
+
+    <div class='entry-content'>
+  <p>Signup for one service and one common thing you&rsquo;ll see is a masked password box. This provides security because bystanders can&rsquo;t read the password. It comes with a downside though: Your user will be annoyed if he makes a typo. This is especially annoying if the password needs to be typed two times to prevent typos and you have to type both passwords again.</p>
+
+<p>But there is a simple solution to this problem: Provide an &ldquo;unmask&rdquo; function.</p>
+
+<p>All you need to do is to change the type of the field from password to text.</p>
+
+<p>To demonstrate this, I&rsquo;ll be using bootstrap and jQuery, but it can obviously be done with plain javascript and without any framework.</p>
+
+<p>The checkbox will be appended to the password field to make it look good and easy for the user to understand.</p>
+
+<p><code>&lt;div class=&quot;form-group&quot;&gt;
+  &lt;label class=&quot;col-md-4 control-label&quot; for=&quot;password&quot;&gt;Password&lt;/label&gt;
+  &lt;div class=&quot;col-md-4&quot;&gt;
+    &lt;div class=&quot;input-group&quot;&gt;
+      &lt;span class=&quot;input-group-addon&quot;&gt;     
+          &lt;input type=&quot;checkbox&quot; class=&quot;showPassword&quot;&gt;&lt;label&gt;Show&lt;/label&gt;     
+      &lt;/span&gt;
+      &lt;input id=&quot;password&quot; name=&quot;password&quot; class=&quot;form-control&quot; type=&quot;password&quot; placeholder=&quot;&quot; required=&quot;&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></p>
+
+<p>To make this usable you just need to add a simple handler that changes the type of it on click.</p>
+
+<p><code>&lt;script&gt;
+$('.showPassword').on('change', function () {
+    var cache = $(this).parent().next();
+    if (cache.attr('type') == 'text') {
+        cache.attr('type', 'password')
+    } else {
+        cache.attr('type', 'text')
+    }
+});
+&lt;/script&gt;</code></p>
+
+<p>It doesn&rsquo;t work on IE &lt;9 and I haven&rsquo;t split tested it yet, so use it with caution.</p>
+
+<p><strong>Demo</strong>:
+<iframe width="100%" height="300" src="http://jsfiddle.net/cNC2K/embedded/result%2Cjs%2Chtml/" allowfullscreen="allowfullscreen" frameborder="0"></iframe></p>
+
+<p>Related to this: Please don&rsquo;t prevent pasting of passwords (at least at the signin page): It provides no security at all and discourages user to use a password manager, which could mean they use insecure passwords.</p>
+
+<p>And if your security certificate requires this, you might think about getting rid of it because it provides no value at all.</p>
+
+<p><blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/passy">@passy</a> We&#39;d lose our security certificate if we allowed pasting. It could leave us open to a &quot;brute force&quot; attack. Thanks ^Steve</p>&mdash; British Gas Help (@BritishGasHelp) <a href="https://twitter.com/BritishGasHelp/statuses/463619139220021248">May 6, 2014</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+</div>
+
+    
+<footer class='entry-footer-container'>
+  <div class='entry-footer'>
+  
+  </div>
+</footer>
+
+
+  </article>
+  
+<nav class='entry-nav-container'>
+  <div class='entry-nav'><div class='next-entry'>
+      <a href='/posts/imgur-redirects-direct-images/'>
+        <span class='screen-reader'>Next post: </span>Imgur Redirects Direct Images<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+  
+</main>
+
+    <footer id='footer' class='footer-container'>
+      <div class='footer'>
+        <div class='social-menu-container'>
+  <nav aria-label='Social Menu'>
+    <ul class='social-menu'><li>
+        <a href='https://github.com/c0dr' target='_blank' rel='noopener'>
+          <span class='screen-reader'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/der_simon' target='_blank' rel='noopener'>
+          <span class='screen-reader'>Open Twitter account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://instagram.com/00666' target='_blank' rel='noopener'>
+          <span class='screen-reader'>Open Instagram account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+  <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:info@simon-schraeder.de' target='_blank' rel='noopener'>
+          <span class='screen-reader'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</div>
+        <div class='copyright'>
+  <p>
+        
+      
+
+       &copy; 2017 Simon Schraeder  
+  </p>
+  <small><a href="/contact">Contact me — (Impressum/Imprint)</a></small>
+</div>
+
+      </div>
+    </footer>
+
+  </div><script src='/assets/js/main.5871befd.js'></script><script src='/js/custom.js'></script></body>
+
+</html>
+

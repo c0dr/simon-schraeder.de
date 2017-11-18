@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Simon Schraeder - Personal Blog</title>
+    <link>https://simon-schraeder.de/page/</link>
+    <description>Recent content in Pages on Simon Schraeder - Personal Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Nov 2017 19:41:40 +0100</lastBuildDate>
+    
+	<atom:link href="https://simon-schraeder.de/page/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Contact</title>
+      <link>https://simon-schraeder.de/contact/</link>
+      <pubDate>Sat, 18 Nov 2017 19:41:40 +0100</pubDate>
+      
+      <guid>https://simon-schraeder.de/contact/</guid>
+      <description>English Thanks for your interest. You can reach me through the following ways. I&amp;rsquo;ll get back to you as soon as possible:
+Email:
+info@simon-schraeder.de
+Mail
+Simon Schraeder A306 Ernsthaldenstr. 47 70565 Stuttgart Germany  Mobile
+(+49) 1575 7031306
+Twitter
+@der_simon
+German Impressum
+Angaben gemäß § 5 TMG:
+Simon Schraeder A306 Ernsthaldenstr. 47 70565 Stuttgart Germany
+Kontakt:
+Telefon: +49 (0) 1575 7031306 Telefax: - E-Mail: info@simon-schraeder.de Verantwortlich für den Inhalt nach § 55 Abs.</description>
+    </item>
+    
+  </channel>
+</rss>

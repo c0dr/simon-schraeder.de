@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Simon Schraeder - Personal Blog</title>
+    <link>https://simon-schraeder.de/posts/</link>
+    <description>Recent content in Posts on Simon Schraeder - Personal Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 15 Jun 2015 19:28:52 +0100</lastBuildDate>
+    
+	<atom:link href="https://simon-schraeder.de/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Let&#39;s Encrypt on Uberspace with Ghost</title>
+      <link>https://simon-schraeder.de/posts/lets-encrypt-uberspace/</link>
+      <pubDate>Mon, 15 Jun 2015 19:28:52 +0100</pubDate>
+      
+      <guid>https://simon-schraeder.de/posts/lets-encrypt-uberspace/</guid>
+      <description>I haven&amp;rsquo;t really published a lot of blog posts in a long time due to time constraints and this post will be quite short as well.
+Just wanted to give some pointers for people using the awesome webhost Uberspace who want to secure their site with Let&amp;rsquo;s Encrypt, especially when using Ghost. I was using Cloudflare&amp;rsquo;s SSL before, but it felt kind of wrong to have a third-party MITM your requests to serve them over HTTPS.</description>
+    </item>
+    
+    <item>
+      <title>Scrape Webpages With JSDOM</title>
+      <link>https://simon-schraeder.de/posts/scrape-webpages-with-jsdom/</link>
+      <pubDate>Sun, 03 May 2015 19:49:12 +0100</pubDate>
+      
+      <guid>https://simon-schraeder.de/posts/scrape-webpages-with-jsdom/</guid>
+      <description>A few days ago I took part in the &amp;ldquo;Data Münster Hackathon&amp;rdquo;, the kickoff event of a usergroup/meetup here in Muenster. It was a three day long hackaton (1 day of coding), which I won together with a colleague (recieved an iPad Air 2 :) ).
+So together with a friend I knew from &amp;ldquo;Code For Muenster&amp;rdquo;, a meetup where we work on open data problems (my projects are on GitHub we decided to work on a logo parser.</description>
+    </item>
+    
+    <item>
+      <title>Imgur Redirects Direct Images</title>
+      <link>https://simon-schraeder.de/posts/imgur-redirects-direct-images/</link>
+      <pubDate>Mon, 06 Oct 2014 19:49:44 +0100</pubDate>
+      
+      <guid>https://simon-schraeder.de/posts/imgur-redirects-direct-images/</guid>
+      <description>Imgur is a popular hoster for images used on sites like twitter or reddit. To share the imag, you have the choice between using a hotlink to the file or using an url which shows the image along with ads.
+But when you use the hotlink on Twitter, it seems like imgur automatically redirects to the website.
+I decided to investigate this, which turned out to be quite simple.
+First let&amp;rsquo;s see what imgur responds to a normal requests to the file:</description>
+    </item>
+    
+    <item>
+      <title>Better UI: Display passwords</title>
+      <link>https://simon-schraeder.de/posts/better-ui-display-password/</link>
+      <pubDate>Thu, 12 Sep 2013 19:50:20 +0100</pubDate>
+      
+      <guid>https://simon-schraeder.de/posts/better-ui-display-password/</guid>
+      <description>Signup for one service and one common thing you&amp;rsquo;ll see is a masked password box. This provides security because bystanders can&amp;rsquo;t read the password. It comes with a downside though: Your user will be annoyed if he makes a typo. This is especially annoying if the password needs to be typed two times to prevent typos and you have to type both passwords again.
+But there is a simple solution to this problem: Provide an &amp;ldquo;unmask&amp;rdquo; function.</description>
+    </item>
+    
+  </channel>
+</rss>

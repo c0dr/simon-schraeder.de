@@ -1,0 +1,60 @@
+baseURL = "https://simon-schraeder.de"
+languageCode = "en-us"
+title = "Simon Schraeder - Personal Blog"
+theme="minimo"
+
+publishDir = "docs"
+
+[params.info]
+title404 = "Nothing's here!"
+
+[params.assets]
+favicon = "favicon.ico"
+customCSS = ["css/custom.css"]
+customJS = ["js/custom.js"]
+gopher = "" # used in 404 template ( Generator: https://gopherize.me )
+
+[params.copyright]
+prefix = ""
+holder = "Simon Schraeder"
+startYear = "2017"
+suffix = ""
+
+[params.settings]
+# date & time format: https://golang.org/pkg/time/
+dateFormat = "2006, Jan 02"
+listDateFormat = "2006, Jan 02"
+hideEntryNavigation = ["page"] # boolean / array of sections
+hideSocialMenu = false
+showReadingTime = true
+noTermCloudShuffle = false
+
+[params.social]
+email = "info@simon-schraeder.de"
+github = "c0dr"
+instagram = "00666"
+twitter = "der_simon"
+
+[params.social.config]
+platforms = ["github","twitter","instagram","email"]
+
+[permalinks]
+page = "/:slug/"
+
+[[menu.main]]
+    name = "Simon's Blog"
+    pre = "<i class='fa fa-heart'></i>"
+    weight = -110
+    identifier = "home"
+    url = "/"
+[[menu.main]]
+    name = "Contact"
+    pre = "<i class='fa fa-road'></i>"
+    weight = -100
+    url = "/contact/"
+
+[[menu.main]]
+    name = "GitHub"
+    pre = "<i class='fa fa-road'></i>"
+    weight = -100
+    url = "https://www.github.com/c0dr"
