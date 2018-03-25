@@ -1,7 +1,7 @@
 ---
 title: "andChill: Building an Alexa Skill with Spotify and Hue"
 date: 2018-03-11T13:05:38+01:00
-draft: true
+draft: false
 ---
 
 I've bought an Amazon Echo Dot as an entry into voice-controlling my home and I quite like it. It reacts fast enough, the voice recognition is good and it works beautifully with my Phillips Hue Lamps.

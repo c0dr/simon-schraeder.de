@@ -6,10 +6,20 @@
     <description>Recent content in Simon&#39;s Blog on Simon Schraeder - Personal Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Nov 2017 19:41:40 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 11 Mar 2018 13:05:38 +0100</lastBuildDate>
     
 	<atom:link href="https://simon-schraeder.de/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>andChill: Building an Alexa Skill with Spotify and Hue</title>
+      <link>https://simon-schraeder.de/posts/andchill-building-alexa-skill/</link>
+      <pubDate>Sun, 11 Mar 2018 13:05:38 +0100</pubDate>
+      
+      <guid>https://simon-schraeder.de/posts/andchill-building-alexa-skill/</guid>
+      <description>I&amp;rsquo;ve bought an Amazon Echo Dot as an entry into voice-controlling my home and I quite like it. It reacts fast enough, the voice recognition is good and it works beautifully with my Phillips Hue Lamps.
+There is just one thing missing that annoys me: No macros. Often I&amp;rsquo;m coming home late in the evening and just want some music to play and the lights to be turned on. The voice recognicion is good, but it get&amp;rsquo;s tiring to say &amp;ldquo;Alexa, play Spotify playlist evening&amp;rdquo; and &amp;ldquo;Alexa, turn on the bedroom lights on scene Evening&amp;rdquo;.</description>
+    </item>
     
     <item>
       <title>Contact</title>
