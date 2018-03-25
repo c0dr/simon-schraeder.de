@@ -22,8 +22,8 @@ suffix = ""
 
 [params.settings]
 # date & time format: https://golang.org/pkg/time/
-dateFormat = "2006, Jan 02"
-listDateFormat = "2006, Jan 02"
+dateFormat = "Jan 2006"
+listDateFormat = "Jan 2006"
 hideEntryNavigation = ["page"] # boolean / array of sections
 hideSocialMenu = false
 showReadingTime = true
@@ -58,3 +58,6 @@ page = "/:slug/"
     pre = "<i class='fa fa-road'></i>"
     weight = -100
     url = "https://www.github.com/c0dr"
+
+[params.widgets]
+homepage = ["recent_posts"]
