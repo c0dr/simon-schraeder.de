@@ -2,7 +2,7 @@ baseURL = "https://simon-schraeder.de"
 languageCode = "en-us"
 title = "Simon Schraeder - Personal Blog"
 theme="minimo"
-
+pygmentsCodeFences ="true"
 publishDir = "docs"
 
 [params.info]

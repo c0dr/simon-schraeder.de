@@ -140,79 +140,63 @@ Simply enter a name for the app, a short description and agree to the T&amp;C. Y
 <code>npm install spotify-web-api-node --save</code></p>
 
 <p>In the <code>spotifyTest.js</code> we&rsquo;ll start by importing the library and setting up the client.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">SpotifyWebApi</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;spotify-web-api-node&#39;</span>);
 
-<pre><code class="language-js">const SpotifyWebApi = require('spotify-web-api-node');
-
-let spotifyApi = new SpotifyWebApi({
-  clientId : 'CEDENTIALS-FROM-PREVIOUS-STEP',
-  clientSecret : 'CEDENTIALS-FROM-PREVIOUS-STEP',
-  redirectUri : 'http://simon-schraeder.de/spotifyTestBlah'
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">spotifyApi</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SpotifyWebApi</span>({
+  <span style="color:#a6e22e">clientId</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;CEDENTIALS-FROM-PREVIOUS-STEP&#39;</span>,
+  <span style="color:#a6e22e">clientSecret</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;CEDENTIALS-FROM-PREVIOUS-STEP&#39;</span>,
+  <span style="color:#a6e22e">redirectUri</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;http://simon-schraeder.de/spotifyTestBlah&#39;</span>
 });
-</code></pre>
-
+</code></pre></div>
 <p>Before authorizing our user to the app, we will need to define the required permissions. As we want to play music, the Spotify API docs list <code>user-modify-playback-state</code> as the required permission. To start the playback we&rsquo;ll also need to Device ID. This requires the <code>user-read-playback-state</code> permission. And as we want to play a playlist, we&rsquo;ll need the  <code>playlist-read-private</code> to get the playlist ID. It is also possible to do this manually, but why not automate everything? :)</p>
-
-<pre><code class="language-js">const scopes = ['user-modify-playback-state','user-read-playback-state', 'playlist-read-private'];
-const state = 'some-state-of-my-choice';
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">scopes</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;user-modify-playback-state&#39;</span>,<span style="color:#e6db74">&#39;user-read-playback-state&#39;</span>, <span style="color:#e6db74">&#39;playlist-read-private&#39;</span>];
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;some-state-of-my-choice&#39;</span>;
+</code></pre></div>
 <p>The state is not too important at the moment. In order to authorize our user to the app, we&rsquo;ll need to generate an authorization URL:</p>
-
-<pre><code class="language-js">const authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
-console.log(authorizeURL);
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">authorizeURL</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">createAuthorizeURL</span>(<span style="color:#a6e22e">scopes</span>, <span style="color:#a6e22e">state</span>);
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">authorizeURL</span>);
+</code></pre></div>
 <p>The console contains an URL starting with <code>accounts.spotify.com</code>. But opening this one won&rsquo;t work at the moment, we&rsquo;ll need to whitelist our URL in the Spotify API settings first.</p>
 
 <p>Click on &ldquo;Edit Settings&rdquo; on the application screen and enter your redirect URL. Opening the URL from the console works now. Simply approve the app and you&rsquo;ll get redirected to your specified redirect URL. The URL parameter will contain a code.</p>
 
 <p>We can trade this access code into a access and refresh token with a quick API call.</p>
-
-<pre><code class="language-js">spotifyApi.authorizationCodeGrant(config.spotifyConfig.accessCode).then(function(data) {
-    console.log(&quot;Access Token:&quot; + data.body['access_token']+  &quot;\n&quot;);
-    console.log('Refresh token ' + data.body['refresh_token']);
-    spotifyApi.setAccessToken(data.body['access_token']);
-    spotifyApi.setRefreshToken(data.body['refresh_token']);
-}).catch(console.log);
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">authorizationCodeGrant</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">spotifyConfig</span>.<span style="color:#a6e22e">accessCode</span>).<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Access Token:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">body</span>[<span style="color:#e6db74">&#39;access_token&#39;</span>]<span style="color:#f92672">+</span>  <span style="color:#e6db74">&#34;\n&#34;</span>);
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Refresh token &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">body</span>[<span style="color:#e6db74">&#39;refresh_token&#39;</span>]);
+    <span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">setAccessToken</span>(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">body</span>[<span style="color:#e6db74">&#39;access_token&#39;</span>]);
+    <span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">setRefreshToken</span>(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">body</span>[<span style="color:#e6db74">&#39;refresh_token&#39;</span>]);
+}).<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>);
+</code></pre></div>
 <p>We&rsquo;ll need the access and refresh token later on, so it&rsquo;s best to take note of them.
 Instead of creating an authorization URL, we&rsquo;ll just set the access and refresh tokens to access the API.</p>
-
-<pre><code class="language-js">spotifyApi.setAccessToken(config.spotifyConfig.accessToken);
-spotifyApi.setRefreshToken(config.spotifyConfig.refreshToken);
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">setAccessToken</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">spotifyConfig</span>.<span style="color:#a6e22e">accessToken</span>);
+<span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">setRefreshToken</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">spotifyConfig</span>.<span style="color:#a6e22e">refreshToken</span>);
+</code></pre></div>
 <p>For the next step, we&rsquo;ll need to grab the playlist ID. We do this by simply iterating over all playlists and logging the name and ID.</p>
-
-<pre><code class="language-js">spotifyApi.getUserPlaylists().then((response) =&gt; {
-    for(playlist of response.body.items) {
-        console.log(`${playlist.name} : ${playlist.id} \n`);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">getUserPlaylists</span>().<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">response</span>) =&gt; {
+    <span style="color:#66d9ef">for</span>(<span style="color:#a6e22e">playlist</span> <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">items</span>) {
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">playlist</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">playlist</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">n`</span>);
     }
-}).catch(console.log);
-</code></pre>
-
+}).<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>);
+</code></pre></div>
 <p>We do the same for the devices.</p>
-
-<pre><code class="language-js"> spotifyApi.getMyDevices().then((response) =&gt; {
-    for(device of response.body.devices) {
-        console.log(`${device.name} : ${device.id} \n`);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"> <span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">getMyDevices</span>().<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">response</span>) =&gt; {
+    <span style="color:#66d9ef">for</span>(<span style="color:#a6e22e">device</span> <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">devices</span>) {
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">device</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">device</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">n`</span>);
     }
-}).catch(console.log)
-</code></pre>
-
+}).<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>)
+</code></pre></div>
 <p>Take note of the playlist name, playlist id, device name and device ID.
 The Spotify API uses &ldquo;Context URIs&rdquo; for playback, so we&rsquo;ll need to generate this. The structure is simply
 <code>spotify:user:${username}:playlist:${targetPlaylist}</code>.</p>
 
 <p>A quick call to</p>
-
-<pre><code class="language-js">spotifyApi.play({
-  context_uri: context_uri,
-  device_id: device_id,
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">spotifyApi</span>.<span style="color:#a6e22e">play</span>({
+  <span style="color:#a6e22e">context_uri</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">context_uri</span>,
+  <span style="color:#a6e22e">device_id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">device_id</span>,
 })
-</code></pre>
-
+</code></pre></div>
 <p>should play our playlist on the selected device.</p>
 
 <p>I decided to wrap my Spotify Code into a wrapper class. You can check it out on GitHub.</p>
@@ -220,75 +204,63 @@ The Spotify API uses &ldquo;Context URIs&rdquo; for playback, so we&rsquo;ll nee
 <h1 id="part-2-hue">Part 2: Hue</h1>
 
 <p>The Hue API is quite simple. You specify a target group, a target scene and the state (on: true) and you are done. The API requires a token for authentication, but it seems to be account-specific and does not expire.</p>
-
-<pre><code class="language-js">return request
-  .put(`/${targetGroup}/action`)
-  .send({
-     &quot;on&quot;: true,
-      &quot;scene&quot;: targetSceneName
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">return</span> <span style="color:#a6e22e">request</span>
+  .<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">`/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">targetGroup</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/action`</span>)
+  .<span style="color:#a6e22e">send</span>({
+     <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+      <span style="color:#e6db74">&#34;scene&#34;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">targetSceneName</span>
     })
-    .set('x-token', token);
-</code></pre>
-
+    .<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#39;x-token&#39;</span>, <span style="color:#a6e22e">token</span>);
+</code></pre></div>
 <p>As the API is not yet public, discovering the API url is left as an excercise for the reader.</p>
 
 <h1 id="part-3-alexa">Part 3: Alexa</h1>
 
 <p>To create an Alexa Skill, we simply use the <code>alexa-sdk</code> library.</p>
-
-<pre><code class="language-js">const Alexa = require('alexa-sdk');
-const APP_ID = 'amzn1.ask.skill.';
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Alexa</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;alexa-sdk&#39;</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">APP_ID</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;amzn1.ask.skill.&#39;</span>;
+</code></pre></div>
 <p>The index.js needs to export a handler function that returns specific handlers.</p>
-
-<pre><code class="language-js">exports.handler = function(event, context, callback) {
-    const alexa = Alexa.handler(event, context, callback);
-    alexa.registerHandlers(handlers);
-    alexa.execute();
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">handler</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">callback</span>) {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">alexa</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Alexa</span>.<span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">callback</span>);
+    <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">registerHandlers</span>(<span style="color:#a6e22e">handlers</span>);
+    <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">execute</span>();
 };
-</code></pre>
-
+</code></pre></div>
 <p>As we don&rsquo;t want complex dialogs and just call our code on launch, we simply create a handler for the <code>LaunchRequest</code>. We call our code and return a simple response.</p>
-
-<pre><code class="language-js">const handlers = {
-    'LaunchRequest': function () {
-        ourCode();
-        this.response
-        .cardRenderer('Stated music', 'Enjoy your evening!')
-        this.emit(':responseReady');
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handlers</span> <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;LaunchRequest&#39;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> () {
+        <span style="color:#a6e22e">ourCode</span>();
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">response</span>
+        .<span style="color:#a6e22e">cardRenderer</span>(<span style="color:#e6db74">&#39;Stated music&#39;</span>, <span style="color:#e6db74">&#39;Enjoy your evening!&#39;</span>)
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">emit</span>(<span style="color:#e6db74">&#39;:responseReady&#39;</span>);
 	},
 };
-</code></pre>
-
+</code></pre></div>
 <p>The LaunchRequest handler calls ourCode(), so we&rsquo;ll need to create a function handling the calls. Instead of hard-coding the playlists and devices, I decided to move them into environment variables. This makes changing the devices and playlists easier and makes sure we store no sensitive data in the code.</p>
-
-<pre><code class="language-js">const targetDevice = process.env.spotifyTargetDeviceName;
-const targetPlaylist = process.env.spotifyTargetPlaylist;
-const targetUsername = process.env.spotifyTargetUsername;
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">targetDevice</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">spotifyTargetDeviceName</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">targetPlaylist</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">spotifyTargetPlaylist</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">targetUsername</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">spotifyTargetUsername</span>;
+</code></pre></div>
 <p>Putting it together we simply refresh the Spotify API token, fetch the device ID, play the music and turn the light on.</p>
-
-<pre><code class="language-js"> 
-function playMusic() {
-    return spotifyHelper.refreshAPIToken().then(() =&gt; {
-        return spotifyHelper.getDeviceIDByName(targetDevice);
-    }).then((targetDeviceID) =&gt;{
-        let targetUri = spotifyHelper.getContextUri(targetUsername, targetPlaylist);
-        return spotifyHelper.play(targetDeviceID, targetUri);
-    }).catch(console.log);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"> 
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">playMusic</span>() {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">spotifyHelper</span>.<span style="color:#a6e22e">refreshAPIToken</span>().<span style="color:#a6e22e">then</span>(() =&gt; {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">spotifyHelper</span>.<span style="color:#a6e22e">getDeviceIDByName</span>(<span style="color:#a6e22e">targetDevice</span>);
+    }).<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">targetDeviceID</span>) =&gt;{
+        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">targetUri</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">spotifyHelper</span>.<span style="color:#a6e22e">getContextUri</span>(<span style="color:#a6e22e">targetUsername</span>, <span style="color:#a6e22e">targetPlaylist</span>);
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">spotifyHelper</span>.<span style="color:#a6e22e">play</span>(<span style="color:#a6e22e">targetDeviceID</span>, <span style="color:#a6e22e">targetUri</span>);
+    }).<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>);
 }
 
-function setLight() {
-    return hueHelper.turnLightOn();
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setLight</span>() {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hueHelper</span>.<span style="color:#a6e22e">turnLightOn</span>();
 }
 
-function ourCode() {
-    playMusic().then(setLight).catch(console.log);
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">ourCode</span>() {
+    <span style="color:#a6e22e">playMusic</span>().<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">setLight</span>).<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>);
 }
-</code></pre>
-
+</code></pre></div>
 <p>To create our Alexa skill, we&rsquo;ll head to the <a href="https://developer.amazon.com/edw/home.html#/">Amazon Developer Console</a>.<br />
 Click on <code>Alexa Skills Kit</code> and <code>Create new Skill</code>. There are pre-build skills types, but we&rsquo;ll create a custom one.
 <img src="/static/img/skill.png" alt="Skill" /></p>
