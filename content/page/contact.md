@@ -4,6 +4,7 @@ date: 2017-11-18T19:41:40+01:00
 draft: false
 type: page
 ---
+<strong><a href="/privacy-policy">Privacy Policy</a></strong>
 
 ## English ##
 
@@ -108,7 +109,7 @@ werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter a
 gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis.
 Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
 
-Datenschutz
+Datenschutz (Auszug)
 
 Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name,
 Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.
@@ -133,5 +134,7 @@ Sie können die Erfassung durch Google Analytics verhindern, indem Sie auf folge
 <a href="javascript:gaOptout()">Google Analytics deaktivieren</a>
 
 Nähere Informationen zu Nutzungsbedingungen und Datenschutz finden Sie unter http://www.google.com/analytics/terms/de.html bzw. unter https://www.google.de/intl/de/policies/. Wir weisen Sie darauf hin, dass auf dieser Website Google Analytics um den Code „anonymizeIp“ erweitert wurde, um eine anonymisierte Erfassung von IP-Adressen (sog. IP-Masking) zu gewährleisten.
+
+<a href="/data-protection">Full Privcy Polocy</a>
 
 Quelle: www.datenschutzbeauftragter-info.de
