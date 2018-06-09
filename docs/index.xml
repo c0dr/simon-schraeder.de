@@ -6,10 +6,20 @@
     <description>Recent content in Simon&#39;s Blog on Simon Schraeder - Personal Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 31 May 2018 12:51:20 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 09 Jun 2018 13:45:19 +0200</lastBuildDate>
     
 	<atom:link href="https://simon-schraeder.de/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Configuring the create-react-app ServiceWorker</title>
+      <link>https://simon-schraeder.de/posts/create-react-webworker/</link>
+      <pubDate>Sat, 09 Jun 2018 13:45:19 +0200</pubDate>
+      
+      <guid>https://simon-schraeder.de/posts/create-react-webworker/</guid>
+      <description>I recently created a new React app with the create-react-app boilerplate tool by Facebook. It&amp;rsquo;s quite nice, but the ServiceWorker configuration is limited to the default output files by webpack. For my CardOnly.de website I wanted to cache the JSON data of the cards and filters as well. The process is actually not too complex:
+Step 1: Eject from the default configuration To edit the webpack configuration files, we&amp;rsquo;ll need to eject by running npm run eject.</description>
+    </item>
     
     <item>
       <title>Using the FileReader API in async functions</title>

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Simon Schraeder - Personal Blog</title>
+    <title>Categories on Simon Schraeder - Personal Blog</title>
     <link>https://simon-schraeder.de/categories/</link>
-    <description>Recent content on Simon Schraeder - Personal Blog</description>
+    <description>Recent content in Categories on Simon Schraeder - Personal Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 31 May 2018 12:51:20 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 09 Jun 2018 13:45:19 +0200</lastBuildDate>
     
 	<atom:link href="https://simon-schraeder.de/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Using the FileReader API in async functions</title>
-      <link>https://simon-schraeder.de/posts/filereader-async/</link>
-      <pubDate>Thu, 31 May 2018 12:51:20 +0200</pubDate>
+      <title></title>
+      <link>https://simon-schraeder.de/categories/</link>
+      <pubDate>Sat, 09 Jun 2018 13:45:19 +0200</pubDate>
       
-      <guid>https://simon-schraeder.de/posts/filereader-async/</guid>
-      <description>The FileReader API allows you to read files from the users&amp;rsquo; computer. Due to sandboxing of course this is mostly limited to files the user has selected in the file input fields.
-The most interesting functionality is probably the .readAsArrayBuffer() function as it allows you to selectively read the file and only store part of it in memory. This allows client-side applications to process huge files without the need for huge memory.</description>
+      <guid>https://simon-schraeder.de/categories/</guid>
+      <description></description>
     </item>
     
   </channel>

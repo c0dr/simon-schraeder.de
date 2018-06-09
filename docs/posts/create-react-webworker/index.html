@@ -4,21 +4,21 @@
 <head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='The FileReader API allows you to read files from the users&rsquo; computer. Due to sandboxing of course this is mostly limited to files the user has selected in the file input fields.
-The most interesting functionality is probably the .readAsArrayBuffer() function as it allows you to selectively read the file and only store part of it in memory. This allows client-side applications to process huge files without the need for huge memory.'>
+<meta name='description' content='I recently created a new React app with the create-react-app boilerplate tool by Facebook. It&rsquo;s quite nice, but the ServiceWorker configuration is limited to the default output files by webpack. For my CardOnly.de website I wanted to cache the JSON data of the cards and filters as well. The process is actually not too complex:
+Step 1: Eject from the default configuration To edit the webpack configuration files, we&rsquo;ll need to eject by running npm run eject.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='Using the FileReader API in async functions • Simon Schraeder - Personal Blog'>
-<meta property='og:description' content='The FileReader API allows you to read files from the users&rsquo; computer. Due to sandboxing of course this is mostly limited to files the user has selected in the file input fields.
-The most interesting functionality is probably the .readAsArrayBuffer() function as it allows you to selectively read the file and only store part of it in memory. This allows client-side applications to process huge files without the need for huge memory.'>
-<meta property='og:url' content='https://simon-schraeder.de/posts/filereader-async/'>
+<meta property='og:title' content='Configuring the create-react-app ServiceWorker • Simon Schraeder - Personal Blog'>
+<meta property='og:description' content='I recently created a new React app with the create-react-app boilerplate tool by Facebook. It&rsquo;s quite nice, but the ServiceWorker configuration is limited to the default output files by webpack. For my CardOnly.de website I wanted to cache the JSON data of the cards and filters as well. The process is actually not too complex:
+Step 1: Eject from the default configuration To edit the webpack configuration files, we&rsquo;ll need to eject by running npm run eject.'>
+<meta property='og:url' content='https://simon-schraeder.de/posts/create-react-webworker/'>
 <meta property='og:site_name' content='Simon Schraeder - Personal Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:tag' content=''><meta property='article:published_time' content='2018-05-31T12:51:20&#43;02:00'/><meta property='article:modified_time' content='2018-05-31T12:51:20&#43;02:00'/><meta name='twitter:card' content='summary'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:tag' content=''><meta property='article:published_time' content='2018-06-09T13:45:19&#43;02:00'/><meta property='article:modified_time' content='2018-06-09T13:45:19&#43;02:00'/><meta name='twitter:card' content='summary'>
 
 <meta name="generator" content="Hugo 0.37" />
 
-  <title>Using the FileReader API in async functions • Simon Schraeder - Personal Blog</title>
-  <link rel='canonical' href='https://simon-schraeder.de/posts/filereader-async/'>
+  <title>Configuring the create-react-app ServiceWorker • Simon Schraeder - Personal Blog</title>
+  <link rel='canonical' href='https://simon-schraeder.de/posts/create-react-webworker/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -65,7 +65,7 @@ The most interesting functionality is probably the .readAsArrayBuffer() function
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>Using the FileReader API in async functions</h1>
+      <h1 class='title'>Configuring the create-react-app ServiceWorker</h1>
       
 
     </div>
@@ -80,7 +80,7 @@ The most interesting functionality is probably the .readAsArrayBuffer() function
   
 </svg>
 <span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2018-05-31T12:51:20&#43;02:00'>May 2018</time>
+  <time class='entry-date' datetime='2018-06-09T13:45:19&#43;02:00'>Jun 2018</time>
 </span>
 
   
@@ -105,49 +105,49 @@ The most interesting functionality is probably the .readAsArrayBuffer() function
   
 
   <div class='container entry-content'>
-  <p>The FileReader API allows you to read files from the users&rsquo; computer. Due to sandboxing of course this is mostly limited to files the user has selected in the file input fields.</p>
+  
 
-<p>The most interesting functionality is probably the <code>.readAsArrayBuffer()</code> function as it allows you to selectively read the file and only store part of it in memory. This allows client-side applications to process huge files without the need for huge memory.</p>
+<p>I recently created a new React app with the <code>create-react-app</code> boilerplate tool by Facebook. It&rsquo;s quite nice, but the <code>ServiceWorker</code> configuration is limited to the default output files by webpack. For my <code>CardOnly.de</code> website I wanted to cache the JSON data of the cards and filters as well. The process is actually not too complex:</p>
 
-<p>While using <code>async</code> functions however I discovered that the <code>FileReader API</code> only supports callbacks. This is a bit annoying, as <code>async/await</code> allows much cleaner code.</p>
+<h2 id="step-1-eject-from-the-default-configuration">Step 1: Eject from the default configuration</h2>
 
-<p>The easiest solution for this is to write a helper function and wrap it into a Promise.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">readFileAsync</span>(<span style="color:#a6e22e">file</span>) {
-  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">reader</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FileReader</span>();
+<p>To edit the webpack configuration files, we&rsquo;ll need to eject by running <code>npm run eject</code>.
+This removes the depency on <code>create-react-app</code> and instead adds the dependencies for <code>webpack</code> and others directly.
+This is a one-way-operation, so you might want to back it up if you are not using version control.</p>
 
-    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">onload</span> <span style="color:#f92672">=</span> () =&gt; {
-      <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">result</span>);
-    };
+<h2 id="step-2-configure-the-webpack-script">Step 2: Configure the webpack script</h2>
 
-    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">onerror</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">reject</span>;
+<p>The newly created <code>/config</code> folder now contains the webpack scripts used by <code>create-react-app</code>. We&rsquo;ll need to open the <code>config/webpack.config.prod.js</code> file.</p>
 
-    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">readAsArrayBuffer</span>(<span style="color:#a6e22e">file</span>);
-  })
-}
+<p>The <code>module.exports.plugins</code> contains some of the webpack plugins including the <code>SWPrecacheWebpackPlugin</code> plugin.
+As this plugin is just a webpack integration around <a href="https://github.com/GoogleChromeLabs/sw-precache#options-parameter">sw-precache</a>, we can pass any options parameter into it.
+The <code>staticFileGlobs</code> parameter specifies string patterns for files the ServiceWorker should precache.</p>
 
-<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">processFile</span>() {
-  <span style="color:#66d9ef">try</span> {
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">file</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;fileInput&#39;</span>).<span style="color:#a6e22e">files</span>[<span style="color:#ae81ff">0</span>];
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">contentBuffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">readFileAsync</span>(<span style="color:#a6e22e">file</span>);
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">contentBuffer</span>);
-  } <span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">err</span>) {
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">err</span>);
-  }
-}
-</code></pre></div>
-<p>And that&rsquo;s it. The contentBuffer variable now contains the ArrayBuffer with no need for us to do anything more.
-We&rsquo;re wrapping the async function content in a try/catch block to make sure we catch the rejection case.</p>
+<p>In my case I want to precache the files in <code>public/data/*</code>. so the configuration looks like this</p>
 
-<p>To process the content of the file further we can simply use the <code>TextDecoder</code> API.
-It allows us to convert the <code>ArrayBuffer</code> to a <code>String</code>. The best idea obviously is to only process parts of the <code>ArrayBuffer</code> as converting the whole might lead to memory issues.</p>
+<p><code>staticFileGlobs: ['public/data/*'],</code></p>
 
-<p>A small example can be seen in the following jsfiddle:</p>
+<p>If the location of the files during runtime is not the same as the config, you&rsquo;ll need to set <code>stripPrefix</code> to remove certain folder prefixes.</p>
 
-<iframe width="100%" height="700" src="//jsfiddle.net/g3n8bzp7/1/embedded/js,html,result/" allowpaymentrequest allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<p>By default the <code>SWPrecacheWebpackPlugin</code> uses webpacks <code>output.path</code> for the <code>stripPrefix</code> parameter and this is by default set to <code>public</code> in <code>create-react-app</code>, so we&rsquo;re good in this case.</p>
 
-<p>The first 20 bytes of the selected file are converted to UTF-8 and displayed in the <code>pre</code> below.
-I think this is quite a powerful example for the clean code that <code>await/async</code> allows us to build.</p>
+<p>The last thing we need to set is the <code>mergeStaticsConfig</code> property to <code>true</code>. This makes sure our <code>staticFileGlobs</code> parameter is merged with the paths of the assets emitted by webpack.</p>
+
+<p>In total we simply added the following lines to <code>config/webpack.config.prod.js</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
+  <span style="color:#75715e">// [...]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">plugins</span><span style="color:#f92672">:</span> [
+  <span style="color:#75715e">// [...]
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SWPrecacheWebpackPlugin</span>({
+      <span style="color:#75715e">// [...]
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">staticFileGlobs</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;public/data/*&#39;</span>],
+      <span style="color:#a6e22e">mergeStaticsConfig</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+    }),
+<span style="color:#75715e">// [...]
+</span><span style="color:#75715e"></span></code></pre></div>
+<p>Voilà . Now even our files in the data folder end up being precached and serverd by the ServiceWorker.</p>
+
+<p><img src="/static/img/serviceworker.png" alt="Skill" /></p>
 
 </div>
 
@@ -180,7 +180,7 @@ I think this is quite a powerful example for the clean code that <code>await/asy
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/posts/enable-chrome-debugging-vs-code/'>
+      <a href='/posts/filereader-async/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -188,17 +188,7 @@ I think this is quite a powerful example for the clean code that <code>await/asy
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Debug React inside Visual Studio Code</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/posts/create-react-webworker/'>
-        <span class='screen-reader-text'>Next post: </span>Configuring the create-react-app ServiceWorker<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-  
-</svg>
-</span>
-      </a>
+        <span class='screen-reader-text'>Previous post: </span>Using the FileReader API in async functions</a>
     </div></div>
 </nav>
 

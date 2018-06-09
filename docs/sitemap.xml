@@ -4,7 +4,12 @@
   
   <url>
     <loc>https://simon-schraeder.de/</loc>
-    <lastmod>2018-05-31T12:51:20+02:00</lastmod>
+    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://simon-schraeder.de/posts/create-react-webworker/</loc>
+    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
   </url>
   
   <url>
@@ -53,20 +58,20 @@
   </url>
   
   <url>
-    <loc>https://simon-schraeder.de/categories/</loc>
-    <lastmod>2018-05-31T12:51:20+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://simon-schraeder.de/tags/</loc>
-    <lastmod>2018-05-31T12:51:20+02:00</lastmod>
+    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://simon-schraeder.de/categories/</loc>
-    <lastmod>2018-05-31T12:51:20+02:00</lastmod>
+    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://simon-schraeder.de/categories/</loc>
+    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -78,13 +83,13 @@
   
   <url>
     <loc>https://simon-schraeder.de/posts/</loc>
-    <lastmod>2018-05-31T12:51:20+02:00</lastmod>
+    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://simon-schraeder.de/tags/</loc>
-    <lastmod>2018-05-31T12:51:20+02:00</lastmod>
+    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
     <priority>0</priority>
   </url>
   
