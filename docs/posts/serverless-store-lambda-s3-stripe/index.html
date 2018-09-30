@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Introduction For quite some time I&rsquo;ve been thinking about playing around with Lambda and the Stripe API to build a serverless store. I especially liked the PaymentRequest API as it really cuts down on implementation time. I was able to build a MVP on a lazy Sunday, but just using the PaymentRequest API loses a lot of customer, so we&rsquo;ll need to display a credit card form as a fallback as well.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Building a severless store with React, NodeJS, Stripe, AWS Lambda and S3 • Simon Schraeder - Personal Blog'>
+<meta property='og:description' content='Introduction For quite some time I&rsquo;ve been thinking about playing around with Lambda and the Stripe API to build a serverless store. I especially liked the PaymentRequest API as it really cuts down on implementation time. I was able to build a MVP on a lazy Sunday, but just using the PaymentRequest API loses a lot of customer, so we&rsquo;ll need to display a credit card form as a fallback as well.'>
+<meta property='og:url' content='https://simon-schraeder.de/posts/serverless-store-lambda-s3-stripe/'>
+<meta property='og:site_name' content='Simon Schraeder - Personal Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2018-09-30T13:31:15&#43;02:00'/><meta property='article:modified_time' content='2018-09-30T13:31:15&#43;02:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.37" />
+
+  <title>Building a severless store with React, NodeJS, Stripe, AWS Lambda and S3 • Simon Schraeder - Personal Blog</title>
+  <link rel='canonical' href='https://simon-schraeder.de/posts/serverless-store-lambda-s3-stripe/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.045169bd.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+</head>
+
+
+<body class='page type-posts'>
+
+  <div class='site'>
+
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+    <div class='main'>
+
+      <nav id='main-menu' class='main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    
+    <ul><li class='item'>
+        <a href='/'>Simon&#39;s Blog</a>
+      </li><li class='item'>
+        <a href='/contact/'>Contact</a>
+      </li><li class='item'>
+        <a href='https://www.github.com/c0dr'>GitHub</a>
+      </li></ul>
+  </div>
+</nav>
+
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>Simon Schraeder - Personal Blog</p><p class='desc site-desc'></p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Building a severless store with React, NodeJS, Stripe, AWS Lambda and S3</h1>
+      
+
+    </div>
+    
+<div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2018-09-30T13:31:15&#43;02:00'>Sep 2018</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+5 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h2 id="introduction">Introduction</h2>
+
+<p>For quite some time I&rsquo;ve been thinking about playing around with Lambda and the Stripe API to build a serverless store. I especially liked the PaymentRequest API as it really cuts down on implementation time.
+I was able to build a <a href="https://twitter.com/der_simon/status/962739179213000705">MVP</a> on a lazy Sunday, but just using the PaymentRequest API loses a lot of customer, so we&rsquo;ll need to display a credit card form as a fallback as well.</p>
+
+<p>Please check out the code for this project on <a href="https://github.com/c0dr/simpleStore">GitHub</a>.</p>
+
+<h2 id="result">Result</h2>
+
+<p>Invoked through the same &ldquo;Buy now&rdquo; button, we either show the</p>
+
+<p>Nice PaymentRequest API dialog (as seen in Chrome 69)
+<img src="/static/img/PaymentRequest.png" alt="PaymentRquest" /></p>
+
+<p>or the credit card form (as seen in IE 11)
+<img src="/static/img/CreditCard.png" alt="CreditCard" /></p>
+
+<h2 id="frontend-implementation">Frontend Implementation</h2>
+
+<p>Sadly you can&rsquo;t only check for <code>window.PaymentRequest</code> to verify the support for the PaymentRequest API. The browser might have support for it, but the user is unable to pay as he might&rsquo;ve not set up his cards.</p>
+
+<p>So we&rsquo;ll need to create a PaymentRequest, call <code>.canMakePayment()</code> on the created Request and decide depending on the result.</p>
+
+<p>As I wanted a consistent UI not matter the support, I used a regular button with a <code>onClick handler</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#f92672">Button</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">=</span><span style="color:#e6db74">{this.showPayment}</span> <span style="color:#a6e22e">color</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;primary&#34;</span>&gt;<span style="color:#a6e22e">Buy</span> <span style="color:#a6e22e">now</span> <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">$</span>{<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">price</span>}&lt;/<span style="color:#f92672">Button</span>&gt;</code></pre></div>
+<p>Depending on the support, we either show the PaymentRequest or the credit card form.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">  <span style="color:#a6e22e">showPayment</span>() {
+    <span style="color:#66d9ef">if</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">canMakePayment</span>) {
+      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">paymentRequest</span>.<span style="color:#a6e22e">show</span>();
+    } <span style="color:#66d9ef">else</span> {
+      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">setState</span>({<span style="color:#a6e22e">showCreditCardForm</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>})
+    }
+</code></pre></div>
+<p>The other code for the PaymentRequest is pretty straightforward as the Stripe API removes a bit of complexity.
+Once the user confirms the payment, we get a card token and the customers&rsquo; data in the <code>token</code> event.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">paymentRequest</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">stripe</span>.<span style="color:#a6e22e">paymentRequest</span>({
+      <span style="color:#a6e22e">country</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;US&#39;</span>,
+      <span style="color:#a6e22e">currency</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;usd&#39;</span>,
+      <span style="color:#a6e22e">total</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">label</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">productName</span>,
+        <span style="color:#a6e22e">amount</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">price</span>,
+      },    
+    });
+
+    <span style="color:#a6e22e">paymentRequest</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;token&#39;</span>, <span style="color:#66d9ef">async</span> ({<span style="color:#a6e22e">complete</span>, <span style="color:#a6e22e">token</span>, ...<span style="color:#a6e22e">data</span>}) =&gt; {
+      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">success</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">createOrder</span>(<span style="color:#a6e22e">customer</span>, <span style="color:#a6e22e">token</span>);
+      <span style="color:#a6e22e">complete</span>(<span style="color:#a6e22e">success</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;success&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;fail&#39;</span>);
+    });
+
+    <span style="color:#a6e22e">paymentRequest</span>.<span style="color:#a6e22e">canMakePayment</span>().<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">setState</span>({<span style="color:#a6e22e">canMakePayment</span><span style="color:#f92672">:</span> <span style="color:#f92672">!!</span><span style="color:#a6e22e">result</span>});
+    });
+</code></pre></div>
+<h3 id="regular-checkout-form">Regular Checkout Form</h3>
+
+<p>To make it as easy as possible for the user to checkout even when entering his cards manually, I recommend adding the <a href="https://wiki.whatwg.org/wiki/Autocomplete_Types">appropriate</a> autoComplete fields.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#f92672">Input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;address_line1&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;address&#34;</span> <span style="color:#a6e22e">autoComplete</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;address-line1&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">{this.state.address_line1}</span> <span style="color:#a6e22e">onChange</span><span style="color:#f92672">=</span><span style="color:#e6db74">{this.handleInputChange}/</span>&gt;
+&lt;<span style="color:#f92672">Input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;postalcode&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;postalcode&#34;</span> <span style="color:#a6e22e">autoComplete</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;postal-code&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">{this.state.postalcode}</span> <span style="color:#a6e22e">onChange</span><span style="color:#f92672">=</span><span style="color:#e6db74">{this.handleInputChange}/</span>&gt;</code></pre></div>
+<p>The Stripe integration in React is pretty painless with their HOC. As Stripe inejects an iFrame for users to enter their credit card information, we need no fields for the credit card ourselves.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#f92672">CardElement</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">hidePostalCode</span><span style="color:#f92672">=</span><span style="color:#e6db74">{true}</span> /&gt;
+[...]
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">injectStripe</span>(<span style="color:#a6e22e">CardSection</span>);</code></pre></div>
+<h2 id="backend-implementation">Backend Implementation</h2>
+
+<p>The Stripe NodeJS library is quite beautiful and supports await/asnyc which makes it really simple to write compact code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/product/:sku&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+  <span style="color:#66d9ef">try</span> {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">sku</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">stripe</span>.<span style="color:#a6e22e">skus</span>.<span style="color:#a6e22e">retrieve</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">sku</span>);
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">product</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">stripe</span>.<span style="color:#a6e22e">products</span>.<span style="color:#a6e22e">retrieve</span>(<span style="color:#a6e22e">sku</span>.<span style="color:#a6e22e">product</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">sku</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">sku</span>, <span style="color:#a6e22e">product</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">product</span> });
+  } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">500</span>).<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;an error occurred&#39;</span>);
+  }
+});
+</code></pre></div>
+<p>Though definitely missing input validation and error handling, it was good enough for a MVP.
+To use the Stripe Order API, we need to set up two objects:</p>
+
+<ul>
+<li>Product: One product (e.g. T-Shirt)</li>
+<li>SKU: One Stock Keeping Unit for the product (e.g. Size S)</li>
+</ul>
+
+<p>As the SKU object doesn&rsquo;t include details of the product, we&rsquo;ll need to fetch the product as well. Just knowing the SKU, the frontend can then display all of the required product information.</p>
+
+<p>To actually earn some money, we then create a order endpoint. All we need to do is to create an order with the SKU and then pay the order using the token. There is no difference between using a token from the manual credit card form and the PaymentRequest API.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/order&#39;</span>, <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">product</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">sku</span>;
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">customer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">customer</span>;
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">token</span>;
+
+  [...]
+
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">order</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">stripe</span>.<span style="color:#a6e22e">orders</span>.<span style="color:#a6e22e">create</span>({
+    <span style="color:#a6e22e">items</span><span style="color:#f92672">:</span> [{<span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;sku&#39;</span>, <span style="color:#a6e22e">parent</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">product</span>}]
+
+    [...]
+  });
+  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">stripe</span>.<span style="color:#a6e22e">orders</span>.<span style="color:#a6e22e">pay</span>(<span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">id</span>, { <span style="color:#a6e22e">source</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">id</span> });
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">200</span>).<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;successful&#39;</span>);
+});
+</code></pre></div>
+<h2 id="deploying-on-aws-lambda">Deploying on AWS Lambda</h2>
+
+<p>As I was using the Express framework, I simply used the <code>aws-serverless-express</code> package to make my app ready for Lambda deployment.
+You simply export your app and create a file for lambda.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">awsServerlessExpress</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;aws-serverless-express&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./app&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">server</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">awsServerlessExpress</span>.<span style="color:#a6e22e">createServer</span>(<span style="color:#a6e22e">app</span>)
+
+<span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">handler</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>) =&gt; <span style="color:#a6e22e">awsServerlessExpress</span>.<span style="color:#a6e22e">proxy</span>(<span style="color:#a6e22e">server</span>, <span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">context</span>);
+</code></pre></div>
+<p>Et voilà. Create a new Lambda function, upload your code and specify the handler (filename + handler name). In my case I had the Lambda code in <code>lambda.js</code>, so the handler was called <code>lambda.handler</code>;
+<img src="/static/img/Lambda_Uploaded.png" alt="Lambd" /></p>
+
+<p>To invoke the handler, we use the Amazon API gateway. Simply create a new API and specify the Lambda function as the handler.
+<img src="/static/img/API_lambda.png" alt="Lambd" /></p>
+
+<p>After setting up the resources
+<img src="/static/img/API_resources.png" alt="Lambd" /></p>
+
+<p>we can deploy the API to get a invocation URL
+<img src="/static/img/Invoke_URL.png" alt="Lambd" /></p>
+
+<p>We can specify this URL in our frontend and build the app for production (<code>npm run build</code>).</p>
+
+<h2 id="deploying-on-s3">Deploying on S3</h2>
+
+<p>Simply create a new bucket and upload the files. We then enable the static hosting feature of S3.
+<img src="/static/img/s3_static_site.png" alt="Static hosting" /></p>
+
+<p>To allow access to the files, we need to create new policy</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2008-10-17&#34;</span>,
+    <span style="color:#f92672">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;PolicyForPublicWebsiteContent&#34;</span>,
+    <span style="color:#f92672">&#34;Statement&#34;</span>: [
+        {
+            <span style="color:#f92672">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;PublicReadGetObject&#34;</span>,
+            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+            <span style="color:#f92672">&#34;Principal&#34;</span>: {
+                <span style="color:#f92672">&#34;AWS&#34;</span>: <span style="color:#e6db74">&#34;*&#34;</span>
+            },
+            <span style="color:#f92672">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>,
+            <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::YOUR_BUCKET_NAME/*&#34;</span>
+        }
+    ]</code></pre></div>
+<p>and edit the Access Control List to allow access for public users.
+Test the configuration by opening the S3 static site url.</p>
+
+<h2 id="enabling-cloudfront">Enabling CloudFront</h2>
+
+<p>To get a proper domain name and TLS, we need to setup CloudFront. Simply create a new distribution, but specify the S3 static hosting URL as the origin domain name instead of specifying the bucket directly.
+<img src="/static/img/cloudfront.png" alt="CloudFront" /></p>
+
+<p>As we are using client-side routing, we need to serve the index.html for all paths that are not files.
+The fast solution is to serve the index.html as the 404 page.
+<img src="/static/img/cloudfront_404.png" alt="CloudFront" /></p>
+
+<p>After waiting a few moments, we can use the CloudFront domain name to access our application. And there you have it, a small React/NodeJS store selling your product using Stripe. No server configuration needed, as everything is handled by AWS. Is it practical for production? Possibly, the cold-boot time for Lambda seemed fast enough in my tests.</p>
+
+<p>Please check out the code for this project on <a href="https://github.com/c0dr/simpleStore">GitHub</a>.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'>
+  
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/create-react-webworker/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Configuring the create-react-app ServiceWorker</a>
+    </div></div>
+</nav>
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'>
+          <section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/c0dr' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/der_simon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://instagram.com/00666' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Instagram account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+  <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:info@simon-schraeder.de' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section>
+          <div class='copyright'>
+  <p> &copy; 2017-2018 Simon Schraeder - <strong><a href="/privacy-policy">Privacy Policy</a></strong>
+  </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__ = '\/assets\/js\/'</script>
+
+<script src='/assets/js/main.80cd10bb.js'></script><script src='/js/custom.js'></script>
+
+
+<script>
+  var gaProperty = 'UA-31081827-1';
+  var disableStr = 'ga-disable-' + gaProperty;
+  if (document.cookie.indexOf(disableStr + '=true') > -1) {
+    window[disableStr] = true;
+  }
+  function gaOptout() {
+    document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+    window[disableStr] = true;
+  }
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-31081827-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-31081827-1', { 'anonymize_ip': true });
+</script></body>
+
+</html>
+

@@ -6,10 +6,19 @@
     <description>Recent content in Simon&#39;s Blog on Simon Schraeder - Personal Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 09 Jun 2018 13:45:19 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 30 Sep 2018 13:31:15 +0200</lastBuildDate>
     
 	<atom:link href="https://simon-schraeder.de/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Building a severless store with React, NodeJS, Stripe, AWS Lambda and S3</title>
+      <link>https://simon-schraeder.de/posts/serverless-store-lambda-s3-stripe/</link>
+      <pubDate>Sun, 30 Sep 2018 13:31:15 +0200</pubDate>
+      
+      <guid>https://simon-schraeder.de/posts/serverless-store-lambda-s3-stripe/</guid>
+      <description>Introduction For quite some time I&amp;rsquo;ve been thinking about playing around with Lambda and the Stripe API to build a serverless store. I especially liked the PaymentRequest API as it really cuts down on implementation time. I was able to build a MVP on a lazy Sunday, but just using the PaymentRequest API loses a lot of customer, so we&amp;rsquo;ll need to display a credit card form as a fallback as well.</description>
+    </item>
     
     <item>
       <title>Configuring the create-react-app ServiceWorker</title>

@@ -4,7 +4,12 @@
   
   <url>
     <loc>https://simon-schraeder.de/</loc>
-    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
+    <lastmod>2018-09-30T13:31:15+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://simon-schraeder.de/posts/serverless-store-lambda-s3-stripe/</loc>
+    <lastmod>2018-09-30T13:31:15+02:00</lastmod>
   </url>
   
   <url>
@@ -83,7 +88,7 @@
   
   <url>
     <loc>https://simon-schraeder.de/posts/</loc>
-    <lastmod>2018-06-09T13:45:19+02:00</lastmod>
+    <lastmod>2018-09-30T13:31:15+02:00</lastmod>
     <priority>0</priority>
   </url>
   
