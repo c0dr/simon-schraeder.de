@@ -12,13 +12,22 @@ I was able to build a [MVP](https://twitter.com/der_simon/status/962739179213000
 Please check out the code for this project on [GitHub](https://github.com/c0dr/simpleStore).
 
 ## Result
-Invoked through the same "Buy now" button, we either show the
+On click on the "Buy now" button, we either show the
 
 Nice PaymentRequest API dialog (as seen in Chrome 69)
 ![PaymentRquest](/static/img/PaymentRequest.png)
 
-or the credit card form (as seen in IE 11)
+or Google Pay as seen here on Android Chrome 69
+
+<img src="/static/img/GooglePay.png" alt="Google Pay" width="250"/>
+
+or Apple Pay as seen here on iOS 
+
+<img src="/static/img/ApplePay.png" alt="Apple Pay" width="250"/>
+
+or the good ol' credit card form (as seen in IE 11)
 ![CreditCard](/static/img/CreditCard.png)
+
 
 ## Frontend Implementation
 
