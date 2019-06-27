@@ -3,8 +3,8 @@ title: Simon's Blog
 weight: -270
 ---
 
-Hello World! I'm Simon Schraeder, a Computer Science Student (3rd year) and a passionate (web) developer (mostly nodejs + React/Redux).
+Hello World! I'm Simon Schraeder, a passionate web developer working mostly with Java/NodeJS and React/Vue.
 
-I'm currently in the process of writing my bacheolor thesis on automated testing of REST API endpoints in an microservice environment. The rest of the time I'm working with my team at T-Systems on an React webservice project.
+Currently I'm working at Breuninger creating the best-in-class online shop with Java services and cutting-edge frontend technologies.
 
 As you can guess my time to write blog posts is a bit limited at the moment, so I encourage you to check out my few [GitHub projects](https://github.com/c0dr) as well.
