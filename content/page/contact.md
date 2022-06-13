@@ -18,9 +18,8 @@ info@simon-schraeder.de
 
 ```
 Simon Schraeder
-A306
-Ernsthaldenstr. 47
-70565 Stuttgart
+Auf der Steig 52
+70376 Stuttgart
 Germany
 ```
 
@@ -41,9 +40,8 @@ Germany
 Angaben gemäß § 5 TMG:
 
 Simon Schraeder
-A306
-Ernsthaldenstr. 47
-70565 Stuttgart
+Auf der Steig 52
+70376 Stuttgart
 Germany
 
 
@@ -58,9 +56,8 @@ Autor
 
 
 Simon Schraeder
-A306
-Ernsthaldenstr. 47
-70565 Stuttgart
+Auf der Steig 52
+70376 Stuttgart
 Germany
 
 
