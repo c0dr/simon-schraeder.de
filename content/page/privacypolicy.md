@@ -58,9 +58,8 @@ Controller for the purposes of the General Data Protection Regulation (GDPR), ot
 ```
 Simon Schraeder
 
-Ernsthaldenstr. 47, A306
-
-70565 Stuttgart
+Auf der Steig 52
+70376 Stuttgart
 
 Germany
 
