@@ -25,7 +25,7 @@ Germany
 
 **Mobile** 
 
-(+49) 1575 7031306
+(+49) 15678 750749
 
 **Twitter**
 
@@ -47,7 +47,7 @@ Germany
 
 Kontakt:
 
-Telefon:	+49 (0) 1575 7031306
+Telefon:	(+49) 15678 750749
 Telefax:	-
 E-Mail:	info@simon-schraeder.de
 Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:
